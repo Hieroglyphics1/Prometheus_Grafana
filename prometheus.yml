@@ -1,0 +1,28 @@
+# Configuración global
+global:
+  scrape_interval: 15s
+  evaluation_interval: 15s
+
+# Configuración de alertas
+alerting:
+  alertmanagers:
+    - static_configs:
+        - targets:
+            # Aquí se podría agregar configuración específica del Alertmanager si es necesario.
+
+# Reglas de evaluación
+rule_files:
+  # - "first_rules.yml"
+  # - "second_rules.yml"
+
+# Configuración de scraping
+scrape_configs:
+  # Job para Node Exporter
+  - job_name: 'node-exporter'
+    static_configs:
+      - targets: ['node-exporter:9100']
+
+  # Job para Nginx Exporter
+  - job_name: 'nginx-exporter'
+    static_configs:
+      - targets: ['nginx-exporter:9113']

@@ -2,6 +2,35 @@ Proyecto de Monitoreo con Prometheus y Grafana
 
 Este proyecto utiliza Docker Compose para orquestar y desplegar un entorno de monitoreo básico que incluye Prometheus, Grafana, NGINX y NGINX Exporter.
 
+Configuración con Docker Compose
+Este proyecto utiliza Docker Compose para gestionar y orquestar los servicios necesarios. Docker Compose simplifica el despliegue de aplicaciones al permitir definir y ejecutar múltiples contenedores como una sola aplicación cohesiva.
+
+Servicios incluidos:
+
+Prometheus: Servicio de monitoreo y alertas.
+
+Grafana: Plataforma para visualización de datos y dashboards.
+
+NGINX: Servidor web utilizado para servir contenido estático y proporcionar métricas a través de un exporter.
+
+NGINX Exporter: Exportador para recolección de métricas específicas de NGINX.
+
+Archivos de configuración:
+
+prometheus.yml: Configuración de Prometheus para la recolección de métricas del exporter de NGINX.
+
+nginx.conf: Configuración personalizada del servidor NGINX.
+
+index.html: Página HTML simple servida por NGINX como ejemplo.
+
+Comandos básicos de Docker Compose:
+
+Iniciar servicios: docker-compose up -d
+
+Detener servicios: docker-compose down
+
+Con Docker Compose, podemos manejar fácilmente la configuración y despliegue de todos los servicios necesarios para este proyecto en un entorno de desarrollo o producción.
+
 Configuración del Entorno
 
 Servicios

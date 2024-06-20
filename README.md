@@ -33,128 +33,15 @@ Imagen: nginx/nginx-prometheus-exporter
 Puertos Externos: 9113
 Acceso: http://localhost:9113/metrics
 Dependencias: Dependiente de NGINX para obtener estadísticas.
-Archivos de Configuración
 
 
+Prometheus 
 
-prometheus.yml
-
-# Configuración global
-global:
-  scrape_interval: 15s
-  evaluation_interval: 15s
-
-# Configuración de alertas
-alerting:
-  alertmanagers:
-    - static_configs:
-        - targets:
-            # Aquí se podría agregar configuración específica del Alertmanager si es necesario.
-
-# Reglas de evaluación
-rule_files:
-  # - "first_rules.yml"
-  # - "second_rules.yml"
-
-# Configuración de scraping
-scrape_configs:
-  - job_name: 'nginx-exporter'
-    static_configs:
-      - targets: ['nginx-exporter:9113']
+![image](https://github.com/Hieroglyphics1/Prometheus_Grafana/assets/107959161/eebf58d2-d279-4d75-af70-9b3ac2d892cd)
 
 
-nginx.conf
+Grafana 
 
-events {
-    worker_connections 1024;
-}
-
-http {
-    server {
-        listen 80;
-
-        location / {
-            root /usr/share/nginx/html;
-            index index.html;
-        }
-
-        location /nginx_status {
-            stub_status on;
-            allow all;  # Permitir acceso desde cualquier dirección IP
-        }
-    }
-}
+![image](https://github.com/Hieroglyphics1/Prometheus_Grafana/assets/107959161/9e81487e-39a4-4e6f-8898-aa5febfc90d4)
 
 
-
-index.html
-
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Simple HTML Page</title>
-</head>
-<body>
-    <h1>Hello, World!</h1>
-    <p>This is a simple HTML page served by NGINX.</p>
-</body>
-</html>
-
-
-
-
-
-DOCKER COMPOSE
-
-Código
-
-
-version: '3'
-
-services:
-  prometheus:
-    image: prom/prometheus
-    container_name: prometheus
-    ports:
-      - "9090:9090"
-    volumes:
-      - ./prometheus.yml:/etc/prometheus/prometheus.yml
-    networks:
-      - monitoring
-
-  grafana:
-    image: grafana/grafana
-    container_name: grafana
-    ports:
-      - "3000:3000"
-    networks:
-      - monitoring
-
-  nginx:
-    image: nginx:latest
-    container_name: nginx
-    ports:
-      - "8080:80"
-    volumes:
-      - ./nginx.conf:/etc/nginx/nginx.conf
-      - ./index.html:/usr/share/nginx/html/index.html:ro
-    networks:
-      - monitoring
-
-  nginx-exporter:
-    image: nginx/nginx-prometheus-exporter
-    container_name: nginx-exporter
-    ports:
-      - "9113:9113"
-    networks:
-      - monitoring
-    depends_on:
-      - nginx
-    command:
-      - '--nginx.scrape-uri=http://nginx:8080/nginx_status'
-
-networks:
-  monitoring:
-    driver: bridge
